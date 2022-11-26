@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @mybimwork
+- 👋 Hi, I’m Bhaskar
 - 🌱 I’m currently learning ...
 <!---
 mybimwork/mybimwork is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
