@@ -1,0 +1,19 @@
+[project]
+name = "whoop5"
+version = "0.1.0"
+description = "Reverse-engineering toolkit for the WHOOP 5.0 / MG Bluetooth protocol"
+requires-python = ">=3.10"
+dependencies = ["bleak>=0.22"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+whoop5 = "whoop5.cli:main"
+
+[tool.setuptools]
+packages = ["whoop5"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
