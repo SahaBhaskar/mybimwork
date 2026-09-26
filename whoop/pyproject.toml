@@ -13,3 +13,7 @@ whoop5 = "whoop5.cli:main"
 
 [tool.setuptools]
 packages = ["whoop5"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
