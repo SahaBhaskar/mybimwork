@@ -111,23 +111,24 @@ private fun Screen(ble: WhoopBle, share: (String?) -> Unit) {
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Spacer(Modifier.padding(top = 8.dp))
-            Text("WHOOP 5 Lab", style = MaterialTheme.typography.headlineMedium)
-            Text(s.status, style = MaterialTheme.typography.bodyMedium)
+            Column(Modifier.padding(top = 8.dp)) {
+                Text("WHOOP 5 Lab", style = MaterialTheme.typography.headlineMedium)
+                Text(s.status, style = MaterialTheme.typography.bodyMedium)
+            }
         }
 
         if (!s.connected) {
             item {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = { if (s.scanning) ble.stopScan() else ble.startScan() }) {
                         Text(if (s.scanning) "Stop scan" else "Scan")
                     }
+                    Text(
+                        "Close the WHOOP app first: the strap accepts one connection at a time. " +
+                            "For the first bond, put the strap in pairing mode.",
+                        style = MaterialTheme.typography.bodySmall,
+                    )
                 }
-                Text(
-                    "Close the WHOOP app first: the strap accepts one connection at a time. " +
-                        "For the first bond, put the strap in pairing mode.",
-                    style = MaterialTheme.typography.bodySmall,
-                )
             }
             items(s.devices, key = { it.device.address }) { d ->
                 Card(Modifier.fillMaxWidth().clickable { ble.connect(d.device) }) {
@@ -176,14 +177,20 @@ private fun Screen(ble: WhoopBle, share: (String?) -> Unit) {
 
         if (s.counts.isNotEmpty()) {
             item {
-                Text("Frames received", style = MaterialTheme.typography.titleSmall)
-                s.counts.entries.sortedByDescending { it.value }.forEach { (k, v) -> Text("%6d  %s".format(v, k), style = mono) }
+                Column {
+                    Text("Frames received", style = MaterialTheme.typography.titleSmall)
+                    s.counts.entries.sortedByDescending { it.value }.forEach { (k, v) ->
+                        Text("%6d  %s".format(v, k), style = mono)
+                    }
+                }
             }
         }
 
         item {
-            HorizontalDivider()
-            Text("Log (newest first)", style = MaterialTheme.typography.titleSmall)
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                HorizontalDivider()
+                Text("Log (newest first)", style = MaterialTheme.typography.titleSmall)
+            }
         }
         items(s.log) { Text(it, style = mono) }
     }

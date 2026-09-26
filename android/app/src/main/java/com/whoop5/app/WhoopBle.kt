@@ -177,6 +177,10 @@ class WhoopBle(private val context: Context) {
     private val callback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(g: BluetoothGatt, status: Int, newState: Int) {
             main.post {
+                if (g != gatt) {  // late callback from a connection we already replaced
+                    g.close()
+                    return@post
+                }
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     _state.update { it.copy(connected = true) }
                     status("Connected, negotiating MTU…")
